@@ -12,7 +12,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
@@ -20,10 +22,22 @@ import javax.persistence.Persistence;
  * @author user
  */
 public class BookSaver {
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
+    private EntityManager em = emf.createEntityManager();
+    private EntityTransaction tx = em.getTransaction();
     private final String fileName = "books";
 
     public void saveBooks(Book[] books) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
+        tx.begin();
+            for (int i = 0; i < books.length; i++) {
+                if(books[i] != null && books[i].getId()==null){
+                    em.persist(books[i]);
+                    break;
+                }else{
+                    em.merge(books[i]);
+                }
+            }
+        tx.commit();
         /**FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
@@ -39,6 +53,14 @@ public class BookSaver {
     }
 
     public Book[] loadFile() {
+        try {
+            return (Book[]) em.createQuery("SELECT book FROM Book book")
+                    .getResultList().toArray();
+            
+        } catch (Exception e) {
+            System.out.println("Нет записей");
+            return new Book[100];
+        }
         /*
         FileInputStream fis = null;
         ObjectInputStream ois = null;

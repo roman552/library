@@ -33,6 +33,8 @@ public class Book implements Serializable{
         this.publishedYear = publishedYear;
     }
 
+    
+    
     public String getName() {
         return name;
     }
@@ -64,6 +66,14 @@ public class Book implements Serializable{
                 + ", author=" + author 
                 + ", publishedYear=" + publishedYear 
                 + '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
     

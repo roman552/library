@@ -47,7 +47,7 @@ class App {
     
     public void run(){
         System.out.println("--- Библиотека ---");
-        this.loginedUser = secureManager.checkTask(users, readers);
+        //this.loginedUser = secureManager.checkTask(users, readers);
         boolean repeat = true;
         do{
             System.out.println("Список задач: ");
