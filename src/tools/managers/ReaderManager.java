@@ -7,6 +7,7 @@ package tools.managers;
 
 import entity.Book;
 import entity.Reader;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,21 +29,16 @@ public class ReaderManager {
         return reader;
     }
 
-    public void addReaderToArray(Reader reader, Reader[] readers) {
-        for (int i = 0; i < readers.length; i++) {
-            if(readers[i] == null){
-                readers[i]=reader;
-                break;
-            }
-        }   
+    public void addReaderToArray(Reader reader, List<Reader> readers) {
+        readers.add(reader);
     }
-    public void printListReaders(Reader[] readers) {
-        for (int i = 0; i < readers.length; i++) {
-            if(readers[i]!= null){
+    public void printListReaders(List<Reader> readers) {
+        for (int i = 0; i < readers.size(); i++) {
+            if(readers.get(i)!= null){
                 System.out.printf("%3d. Добавлен читатель: %s %s%n"
                         ,i+1
-                        ,readers[i].getName()
-                        ,readers[i].getLastname()
+                        ,readers.get(i).getName()
+                        ,readers.get(i).getLastname()
                 );
                 System.out.println("--------------------------------");
             }

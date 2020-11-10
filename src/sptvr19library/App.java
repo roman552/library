@@ -11,6 +11,8 @@ import entity.Reader;
 import entity.Book;
 import entity.History;
 import entity.User;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import tools.managers.BookManager;
 import tools.severs.BookSaver;
@@ -25,10 +27,11 @@ import tools.severs.UserSaver;
  * @author sillamae kutsekool
  */
 class App {
-    private Book[] books = new Book[100];
-    private Reader[] readers = new Reader[100];
-    private History[] histories = new History[100];
-    private User[] users = new User[100];
+    private List<Book> listBooks = new ArrayList<>();
+    private List<Reader> listReaders = new ArrayList<>();
+    private List<History> listHistories = new ArrayList<>();
+    private List<User> listUsers = new ArrayList<>();
+    
     private ReaderManager readerManager = new ReaderManager();
     private BookManager bookManager = new BookManager();
     private HistoryManager historyManager = new HistoryManager();
@@ -36,13 +39,13 @@ class App {
     private User loginedUser;
     public App() {
         BookSaver bookSaver = new BookSaver();
-        books = bookSaver.loadFile();
+        listBooks = bookSaver.loadFile();
         ReaderSaver readerSaver = new ReaderSaver();
-        readers = readerSaver.loadFile();
+        listReaders = readerSaver.loadFile();
         HistorySaver historySaver = new HistorySaver();
-        histories = historySaver.loadFile();
+        listHistories = historySaver.loadFile();
         UserSaver userSaver = new UserSaver();
-        users = userSaver.loadFile();
+        listUsers = userSaver.loadFile();
     }
     
     public void run(){
@@ -70,26 +73,26 @@ class App {
                 case "1":
                     System.out.println("---- Добавить новую книгу ----");
                     Book book = bookManager.createBook();
-                    bookManager.addBookToArray(book, books);
-                    bookManager.printListBooks(books);
+                    bookManager.addBookToArray(book, listBooks);
+                    bookManager.printListBooks(listBooks);
                     BookSaver bookSaver = new BookSaver();
-                    bookSaver.saveBooks(books);
+                    bookSaver.saveBooks(listBooks);
                     break;
                 case "2":
                     System.out.println("--- Cписок книг ---");
-                    bookManager.printListBooks(books);
+                    bookManager.printListBooks(listBooks);
                     break;
                 case "3":
                     System.out.println("--- Зарегистрировать нового читателя ---");
                     Reader reader = readerManager.createReader();
-                    readerManager.addReaderToArray(reader, readers);
-                    readerManager.printListReaders(readers);
+                    readerManager.addReaderToArray(reader, listReaders);
+                    readerManager.printListReaders(listReaders);
                     ReaderSaver readerSaver = new ReaderSaver();
-                    readerSaver.saveReaders(readers);
+                    readerSaver.saveReaders(listReaders);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
-                    readerManager.printListReaders(readers);
+                    readerManager.printListReaders(listReaders);
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");

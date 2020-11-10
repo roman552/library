@@ -3,6 +3,9 @@
   <persistence-unit name="SPTVR19LibraryPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entity.Book</class>
+    <class>entity.Reader</class>
+    <class>entity.History</class>
+    <class>entity.User</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sptvr19library?useUnicode=true&amp;characterEndcoding=utf8"/>
       <property name="javax.persistence.jdbc.user" value="sptvr19library"/>
