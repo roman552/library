@@ -7,9 +7,11 @@ package security;
 
 import entity.Reader;
 import entity.User;
+import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
-import tools.severs.ReaderSaver;
+//import tools.severs.ReaderSaver;
+import tools.severs.SaverToBase;
 import tools.severs.UserSaver;
 
 /**
@@ -18,8 +20,9 @@ import tools.severs.UserSaver;
  */
 public class SecureManager {
     private Scanner scanner = new Scanner(System.in);
+    private SaverToBase saverToBase = new SaverToBase();
     
-    public User checkTask(User[] users, Reader[] readers) {
+    public User checkTask(List<User> users, List<Reader> readers) {
         int numTask = -1;
         do{
             System.out.println("Ваш выбор: ");
@@ -31,7 +34,7 @@ public class SecureManager {
             UserManager userManager = new UserManager();
             try {
                 numTask = Integer.parseInt(task);
-                if(numTask >= 0 && numTask < 2){
+                if(numTask >= 0 && numTask < 3){
                    if(numTask == 0){
                        System.out.println("Пока! :)");
                        System.exit(0);
@@ -40,24 +43,25 @@ public class SecureManager {
                        userManager.addUserToArray(regUser, users);
                        ReaderManager readerManager = new ReaderManager();
                        readerManager.addReaderToArray(regUser.getReader(), readers);
-                       ReaderSaver readerSaver = new ReaderSaver();
-                       readerSaver.saveReaders(readers);
-                       UserSaver userSaver = new UserSaver();
-                       userSaver.saveUsers(users);
+                       saverToBase.save(readers);
+                       UserSaver usaver = new UserSaver();
+                       usaver.saveUsers(users);
                    }else if(numTask == 2){
-                       return userManager.getAuthUser(users);
-                       /*User authUser = userManager.getAuthUser(users);
-                       if(authUser==null){
+                       User authUser =  userManager.getAuthUser(users);                   
+                       if (authUser != null) {
                            return authUser;
-                       }else{
-                           System.out.println("Нет такого пользователя. Зарегистрируйтесь");
-                       } */  
+                       }else {
+                           System.out.println("зарегистрируйся");
+                       }
                    }
                 }
+            
+            
                
             } catch (Exception e) {
                 System.out.println("Нет такой задачи. Выберите из перечисленных");
             }
+            
          }while(true);
     }
     

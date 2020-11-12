@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ *
 package tools.severs;
 
 import entity.History;
@@ -23,21 +23,21 @@ import javax.persistence.Persistence;
 /**
  *
  * @author user
- */
+ *
 public class HistorySaver {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
     private final String fileName = "histories";
 
-    public void saveHistories(History[] histories) {
+    public void saveHistories(List<History> histories) {
         tx.begin();
-            for (int i = 0; i < histories.length; i++) {
-                if(histories[i] != null && histories[i].getId()==null){
-                    em.persist(histories[i]);
+            for (int i = 0; i < histories.size(); i++) {
+                if(histories.get(i) != null && histories.get(i).getId()==null){
+                    em.persist(histories.get(i));
                     break;
                 }else{
-                    em.merge(histories[i]);
+                    em.merge(histories.get(i));
                 }
             }
         tx.commit();
@@ -54,4 +54,6 @@ public class HistorySaver {
         }
     }
     
-}
+}*/
+
+

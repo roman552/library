@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
  */
 
 @Entity
-public class History implements Serializable{
+public class History implements Serializable, EntityInterface{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

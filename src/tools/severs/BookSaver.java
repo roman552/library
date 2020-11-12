@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ *
 package tools.severs;
 
 import entity.Book;
@@ -22,7 +22,7 @@ import javax.persistence.Persistence;
 /**
  *
  * @author user
- */
+ *
 public class BookSaver {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
@@ -51,7 +51,7 @@ public class BookSaver {
             System.out.println("Не найден файл");
         } catch (IOException ex) {
             System.out.println("Ошибка ввода/вывода");    
-        }**/
+        }**
     }
 
     public List<Book> loadFile() {
@@ -78,7 +78,8 @@ public class BookSaver {
             System.out.println("Ошибка: не найден класс");
         }
         return new Book[100];
-*/
+
     }
     
 }
+*/

@@ -17,7 +17,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class Reader implements Serializable{
+public class Reader implements Serializable, EntityInterface{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

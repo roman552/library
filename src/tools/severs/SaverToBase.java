@@ -8,12 +8,15 @@ package tools.severs;
 
 
 import entity.Book;
+import entity.EntityInterface;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -25,21 +28,22 @@ import javax.persistence.Persistence;
  *
  * @author user
  */
-public class SaverToFile {
+public class SaverToBase<T> {
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
     private final String fileName = "books";
 
-    public void saveBooks(Book[] books) {
+    public void save(List<EntityInterface> entityList) {
         tx.begin();
-            for (int i = 0; i < books.length; i++) {
-                if(books[i] != null && books[i].getId()==null){
-                    em.persist(books[i]);
+        
+            for (int i = 0; i < entityList.size(); i++) {
+                if(entityList.get(i) != null && entityList.get(i).getId()==null){
+                    em.persist(entityList.get(i));
                     break;
                 }else{
-                    em.merge(books[i]);
+                    em.merge(entityList.get(i));
                 }
             }
         tx.commit();
@@ -57,14 +61,14 @@ public class SaverToFile {
         }**/
     }
 
-    public Book[] loadFile() {
+    public List<EntityInterface> load(String entityName) {
         try {
-            return (Book[]) em.createQuery("SELECT book FROM Book book")
-                    .getResultList().toArray();
+            return em.createQuery("SELECT e FROM "+entityName+" e")
+                    .getResultList();
             
         } catch (Exception e) {
             System.out.println("Нет записей");
-            return new Book[100];
+            return new ArrayList<EntityInterface>();
         }
         /*
         FileInputStream fis = null;

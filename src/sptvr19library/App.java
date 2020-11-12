@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import tools.managers.BookManager;
-import tools.severs.BookSaver;
+//import tools.severs.BookSaver;
 import tools.managers.HistoryManager;
-import tools.severs.HistorySaver;
+//import tools.severs.HistorySaver;
 import tools.managers.ReaderManager;
-import tools.severs.ReaderSaver;
-import tools.severs.UserSaver;
+//import tools.severs.ReaderSaver;
+import tools.severs.SaverToBase;
+//import tools.severs.UserSaver;
 
 /**
  *
@@ -37,20 +38,18 @@ class App {
     private HistoryManager historyManager = new HistoryManager();
     private SecureManager secureManager = new SecureManager();
     private User loginedUser;
+    
+    private SaverToBase saverToBase = new SaverToBase();
     public App() {
-        BookSaver bookSaver = new BookSaver();
-        listBooks = bookSaver.loadFile();
-        ReaderSaver readerSaver = new ReaderSaver();
-        listReaders = readerSaver.loadFile();
-        HistorySaver historySaver = new HistorySaver();
-        listHistories = historySaver.loadFile();
-        UserSaver userSaver = new UserSaver();
-        listUsers = userSaver.loadFile();
+        listBooks = (List<Book>)saverToBase.load("Book");
+        listReaders = (List<Reader>)saverToBase.load("Reader");
+        listHistories = (List<History>)saverToBase.load("History");
+        listUsers = (List<User>)saverToBase.load("User");
     }
     
     public void run(){
         System.out.println("--- Библиотека ---");
-        //this.loginedUser = secureManager.checkTask(users, readers);
+        //this.loginedUser = secureManager.checkTask(listUsers, listReaders);
         boolean repeat = true;
         do{
             System.out.println("Список задач: ");
@@ -75,8 +74,7 @@ class App {
                     Book book = bookManager.createBook();
                     bookManager.addBookToArray(book, listBooks);
                     bookManager.printListBooks(listBooks);
-                    BookSaver bookSaver = new BookSaver();
-                    bookSaver.saveBooks(listBooks);
+                    saverToBase.save(listBooks);
                     break;
                 case "2":
                     System.out.println("--- Cписок книг ---");
@@ -87,8 +85,7 @@ class App {
                     Reader reader = readerManager.createReader();
                     readerManager.addReaderToArray(reader, listReaders);
                     readerManager.printListReaders(listReaders);
-                    ReaderSaver readerSaver = new ReaderSaver();
-                    readerSaver.saveReaders(listReaders);
+                    saverToBase.save(listReaders);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
@@ -96,21 +93,19 @@ class App {
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
-                    History history = historyManager.takeOnBookToReader(books, readers);
-                    historyManager.addBookToArray(history, histories);
-                    historyManager.printListHistories(histories);
-                    HistorySaver historySaver = new HistorySaver();
-                    historySaver.saveHistories(histories);
+                    History history = historyManager.takeOnBookToReader(listBooks, listReaders);
+                    historyManager.addBookToArray(history, listHistories);
+                    historyManager.printListHistories(listHistories);
+                    saverToBase.save(listHistories);
                     break;
                 case "6":
                     System.out.println("--- Возврат книги ---");
-                    historyManager.returnBook(histories);
-                    historySaver = new HistorySaver();
-                    historySaver.saveHistories(histories);
+                    historyManager.returnBook(listHistories);
+                    saverToBase.save(listHistories);
                     break;
                 case "7":
                     System.out.println("--- Список читаемых книг ---");
-                    historyManager.printListHistories(histories);
+                    historyManager.printListHistories(listHistories);
                     break;
                 default:
                     System.out.println("Нет такой задачи.");

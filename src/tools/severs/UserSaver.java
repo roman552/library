@@ -29,14 +29,14 @@ public class UserSaver {
     private EntityTransaction tx = em.getTransaction();
     private final String fileName = "users";
 
-    public void saveUsers(User[] users) {
+    public void saveUsers(List<User> users) {
         tx.begin();
-            for (int i = 0; i < users.length; i++) {
-                if(users[i] != null && users[i].getId()==null){
-                    em.persist(users[i]);
+            for (int i = 0; i < users.size(); i++) {
+                if(users.get(i) != null && users.get(i).getId()==null){
+                    em.persist(users.get(i));
                     break;
                 }else{
-                    em.merge(users[i]);
+                    em.merge(users.get(i));
                 }
             }
         tx.commit();
@@ -44,7 +44,7 @@ public class UserSaver {
 
     public List<User> loadFile() {
         try {
-            return em.createQuery("SELECT history FROM History history")
+            return em.createQuery("SELECT user FROM User user")
                     .getResultList();
             
         } catch (Exception e) {
@@ -53,3 +53,4 @@ public class UserSaver {
         }
     }
 }
+
